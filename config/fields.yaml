@@ -1,0 +1,30 @@
+# Fields the extraction agent should pull out of each bill.
+# Add or remove entries here to change what gets extracted -- the agent
+# prompt is built from this list at runtime.
+fields:
+  - name: bill_number
+    label: "Bill / Invoice Number"
+    type: string
+    required: true
+    description: "Invoice/bill identifier, often labelled Invoice No / Bill No / Receipt No."
+  - name: bill_date
+    label: "Bill Date"
+    type: date
+    required: true
+    description: "The date the bill was issued."
+  - name: amount
+    label: "Total Amount"
+    type: decimal
+    required: true
+    description: "The final total payable amount, including tax. The grand total, not a subtotal."
+  - name: vendor
+    label: "Vendor Name"
+    type: string
+    required: true
+    description: "The business / merchant that issued the bill."
+
+settings:
+  # strftime format used when writing bill_date into the CSV.
+  date_output_format: "%Y-%m-%d"
+  # Tokens stripped from amount strings before parsing to a number.
+  currency_symbol_strip: ["₹", "$", "Rs.", "Rs", "INR", "USD", ","]

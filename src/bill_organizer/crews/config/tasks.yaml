@@ -1,0 +1,24 @@
+# Extraction task definition.
+# {field_instructions} is filled in at runtime from config/fields.yaml;
+# {raw_text} is the bill text to read.
+extract_fields:
+  description: >
+    Extract structured data from the bill text below.
+
+    Extract these fields:
+    {field_instructions}
+
+    Rules:
+      - Use only information present in the text. If a field is not present,
+        leave it null -- do not guess.
+      - For dates, return ISO format YYYY-MM-DD.
+      - For amounts, return only the numeric value (no currency symbols or
+        thousands separators).
+
+    --- BILL TEXT START ---
+    {raw_text}
+    --- BILL TEXT END ---
+  expected_output: >
+    A JSON object with the requested fields, using null for any field that
+    cannot be found in the text.
+  agent: extractor

@@ -1,0 +1,23 @@
+# Maps bill categories to vendor / text keywords.
+# Categories are matched top-to-bottom: the first category with a keyword
+# hit wins. If none match, default_category is used.
+default_category: "Uncategorized"
+
+match:
+  case_sensitive: false
+  # Which extracted text the keywords are searched against.
+  fields_searched: [vendor, raw_text]
+
+categories:
+  - name: Food
+    keywords: [swiggy, zomato, dominos, mcdonald, restaurant, cafe, grocery, bigbasket]
+  - name: Fuel
+    keywords: [indian oil, iocl, bharat petroleum, bpcl, hp petrol, shell, fuel]
+  - name: Utilities
+    keywords: [electricity, water board, gas bill, broadband, airtel, jio, bsnl]
+  - name: Travel
+    keywords: [uber, ola, irctc, makemytrip, indigo, vistara, redbus]
+  - name: Shopping
+    keywords: [amazon, flipkart, myntra, ikea, reliance trends]
+  - name: Healthcare
+    keywords: [pharmacy, apollo, hospital, clinic, diagnostics, medplus]
