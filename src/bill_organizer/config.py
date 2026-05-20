@@ -90,3 +90,7 @@ def load_categories_config(config_dir: Path = DEFAULT_CONFIG_DIR) -> CategoriesC
         return CategoriesConfig.model_validate(data)
     except ValidationError as exc:
         raise ConfigError(f"Invalid categories.yaml:\n{exc}") from exc
+
+
+# Define what is explicitly public (Like public access modifiers in C#)
+__all__ = ["FieldsConfig", "load_fields_config", "CategoriesConfig", "load_categories_config"]
