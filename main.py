@@ -15,8 +15,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from bill_organizer.config import ConfigError, load_categories_config, load_fields_config
-from bill_organizer.flow import BillFlow
+from bill_organizer  import ConfigError, load_categories_config, load_fields_config
+from bill_organizer  import BillFlow
 
 
 def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
