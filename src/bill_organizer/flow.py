@@ -163,3 +163,6 @@ def _safe_hash(path: Path) -> str:
         return file_hash(path)
     except OSError:
         return ""
+
+
+__all__ = ["BillFlow"]
