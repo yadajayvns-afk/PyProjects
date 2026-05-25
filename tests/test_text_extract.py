@@ -37,3 +37,62 @@ def test_image_classified_as_needs_ocr(tmp_path):
     img_path = tmp_path / "receipt.png"
     Image.new("RGB", (10, 10), "white").save(img_path)
     assert classify_source(img_path) == "needs_ocr"
+
+
+def test_extract_ocr_text_dispatches_to_tesseract_engine(tmp_path, monkeypatch):
+    from PIL import Image
+
+    from bill_organizer import text_extract
+
+    img_path = tmp_path / "receipt.png"
+    Image.new("RGB", (10, 10), "white").save(img_path)
+
+    monkeypatch.setenv("OCR_ENGINE", "tesseract")
+    called: dict[str, object] = {}
+
+    def fake_tesseract(path):
+        called["path"] = path
+        return "tess-out"
+
+    def fake_paddle(path):
+        called["paddle"] = path
+        return "paddle-out"
+
+    monkeypatch.setattr(text_extract, "_ocr_image_tesseract", fake_tesseract)
+    monkeypatch.setattr(text_extract, "_ocr_image_paddle", fake_paddle)
+
+    assert text_extract.extract_ocr_text(img_path) == "tess-out"
+    assert called == {"path": img_path}
+
+
+def test_extract_ocr_text_dispatches_to_paddle_engine(tmp_path, monkeypatch):
+    from PIL import Image
+
+    from bill_organizer import text_extract
+
+    img_path = tmp_path / "receipt.png"
+    Image.new("RGB", (10, 10), "white").save(img_path)
+
+    monkeypatch.setenv("OCR_ENGINE", "paddle")
+    monkeypatch.setattr(text_extract, "_ocr_image_paddle", lambda p: "paddle-out")
+
+    assert text_extract.extract_ocr_text(img_path) == "paddle-out"
+
+
+def test_extract_ocr_text_paddle_missing_falls_back_to_tesseract(tmp_path, monkeypatch):
+    from PIL import Image
+
+    from bill_organizer import text_extract
+
+    img_path = tmp_path / "receipt.png"
+    Image.new("RGB", (10, 10), "white").save(img_path)
+
+    monkeypatch.setenv("OCR_ENGINE", "paddle")
+
+    def raise_import(_path):
+        raise ImportError("paddleocr not installed")
+
+    monkeypatch.setattr(text_extract, "_ocr_image_paddle", raise_import)
+    monkeypatch.setattr(text_extract, "_ocr_image_tesseract", lambda p: "tess-fallback")
+
+    assert text_extract.extract_ocr_text(img_path) == "tess-fallback"

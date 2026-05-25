@@ -113,6 +113,8 @@ class BillFlow(Flow[BillFlowState]):
         """Run the full text -> extract -> categorize -> file pipeline for one bill."""
         # Step 2: read text (text-PDF path or OCR path, decided inside).
         ctx.raw_text, ctx.source_kind = get_bill_text(ctx.source_path)
+        logger.info("(Source kind: %s) -> OCR Text : %s", ctx.source_kind, ctx.raw_text)
+        
         if ctx.source_kind == "unreadable":
             logger.warning("Unreadable bill, quarantining: %s", ctx.source_path.name)
             ctx.status = "failed"
