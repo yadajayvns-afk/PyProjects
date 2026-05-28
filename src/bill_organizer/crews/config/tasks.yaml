@@ -14,6 +14,8 @@ extract_fields:
       - For dates, return ISO format YYYY-MM-DD.
       - For amounts, return only the numeric value (no currency symbols or
         thousands separators).
+      - Be mindful that all fiels and values may be split across multiple lines, and that OCR errors may be present.
+      - Fields value should start with alphanumeric characters, and should not include leading punctuation or whitespace.
 
     --- BILL TEXT START ---
     {raw_text}

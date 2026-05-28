@@ -103,6 +103,9 @@ def _ocr_image_tesseract(path: Path) -> str:
     # Otsu picks a global threshold from the now-flat histogram --
     # cleaner than adaptive threshold, which tends to revive watermarks.
     _, processed = cv2.threshold(norm, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    processed_path = path.with_name(path.stem + "_processed.png")
+    cv2.imwrite(str(processed_path), processed)
+    logger.debug("Saved preprocessed image for OCR to %s", processed_path)
     return pytesseract.image_to_string(processed, config="--oem 1 --psm 6")
 
 

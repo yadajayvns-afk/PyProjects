@@ -6,7 +6,7 @@ fields:
     label: "Bill / Invoice Number"
     type: string
     required: true
-    description: "Invoice/bill identifier, often labelled Invoice No / Bill No / Receipt No."
+    description: "Invoice/bill identifier, often labelled Invoice No / Bill No / Receipt No. It is possible for bill number to split across two seperate lines."
   - name: bill_date
     label: "Bill Date"
     type: date
@@ -21,7 +21,7 @@ fields:
     label: "Vendor Name"
     type: string
     required: true
-    description: "The business / merchant that issued the bill."
+    description: "The business / merchant that issued the bill. Usually prominently displayed at the top of the bill. It is possible for vendor name to split across two seperate lines."
 
 settings:
   # strftime format used when writing bill_date into the CSV.
